@@ -22,7 +22,10 @@ server.use(async (ctx, next) => {
   try {
     await next();
   } catch (err) {
-    ctx.error = 'Server error.';
+    ctx.error = {
+      code: 500,
+      message: 'Server error.',
+    };
   }
 });
 
@@ -46,9 +49,16 @@ const client = new Client({
   },
 });
 
-const response = await client.ask('users.get', {
+const user = await client.ask('users.get', {
   id: 10,
 });
 
-console.log(response); // => { id: 10, name: 'Mikhail Semin', age: 16 }
+// {
+//   error: undefined,
+//   response: {
+//     id: 10,
+//     name: 'Mikhail Semin',
+//     age: 16,
+//   },
+// }
 ```

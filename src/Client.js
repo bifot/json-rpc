@@ -24,7 +24,10 @@ class Client {
       id: params.params && params.id,
     });
 
-    return data.result;
+    return {
+      error: data.error,
+      result: data.result,
+    };
   }
 }
 
