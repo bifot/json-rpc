@@ -9,7 +9,7 @@ class Client {
     });
   }
 
-  async ask(name, params) {
+  async ask(name, params, options) {
     const [service, method] = name.split('.');
     const url = this.services.get(service);
 
@@ -22,7 +22,7 @@ class Client {
       method,
       params: params.params ? params.params : params,
       id: params.params && params.id,
-    });
+    }, options);
 
     return {
       error: data.error,
