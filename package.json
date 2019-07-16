@@ -1,6 +1,6 @@
 {
   "name": "@bifot/json-rpc",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Solution for communication between services using HTTP protocol via JSON RPC. 🔬",
   "main": "src/index.js",
   "scripts": {
