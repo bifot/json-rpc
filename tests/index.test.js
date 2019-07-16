@@ -7,9 +7,9 @@ it('should get response', async () => {
     age: 16,
   });
 
-  expect(response).to.be.deep.equal({
+  expect(user).to.be.deep.equal({
     error: undefined,
-    response: {
+    result: {
       name: 'Mikhail Semin',
       age: 16,
     },

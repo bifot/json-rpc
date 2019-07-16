@@ -55,7 +55,7 @@ const user = await client.ask('users.get', {
 
 // {
 //   error: undefined,
-//   response: {
+//   result: {
 //     id: 10,
 //     name: 'Mikhail Semin',
 //     age: 16,
