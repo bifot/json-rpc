@@ -4,7 +4,8 @@ const Context = require('./Context');
 const { formatResponse } = require('./helpers');
 
 class Server {
-  constructor() {
+  constructor(options = {}) {
+    this.options = options;
     this.middlewares = [];
   }
 
@@ -49,7 +50,7 @@ class Server {
 
   listen(port) {
     return http.createServer(async (req, res) => {
-      const body = await parse.json(req);
+      const body = await parse.json(req, this.options.body);
 
       if (body.jsonrpc !== '2.0') {
         return;
