@@ -41,7 +41,7 @@ class Server {
 
     const { method, handler } = middleware;
 
-    if (!method || method === ctx.action) {
+    if (!method || method === ctx.method) {
       return handler(ctx);
     }
 

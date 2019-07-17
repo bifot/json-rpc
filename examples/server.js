@@ -13,7 +13,7 @@ server.use(async (ctx, next) => {
   }
 });
 
-server.on((ctx) => {
+server.on('get', (ctx) => {
   ctx.assert(ctx.params.age >= 18, 400, 'Invalid age');
 
   ctx.body = {
