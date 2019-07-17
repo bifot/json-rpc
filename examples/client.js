@@ -6,4 +6,10 @@ const client = new Client({
   },
 });
 
-module.exports = client;
+void async function() {
+  const user = await client.ask('users.get', {
+    age: 16,
+  });
+
+  console.log(user);
+}();

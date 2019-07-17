@@ -5,7 +5,12 @@ class Client {
     this.services = new Map();
 
     Object.entries(options.services).forEach(([name, url]) => {
-      this.services.set(name, url);
+      const hasProtocol = url.startsWith('https://') || url.startsWith('http://');
+
+      this.services.set(
+        name,
+        hasProtocol ? url : `http://${url}`,
+      );
     });
   }
 
@@ -17,17 +22,23 @@ class Client {
       throw new Error('Service is not found');
     }
 
-    const { data } = await axios.post(`http://${url}`, {
-      jsonrpc: '2.0',
-      method,
-      params: params.params ? params.params : params,
-      id: params.params && params.id,
-    }, options);
+    try {
+      const { data } = await axios.post(url, {
+        jsonrpc: '2.0',
+        method,
+        params: params.params ? params.params : params,
+        id: params.params && params.id,
+      }, options);
 
-    return {
-      error: data.error,
-      result: data.result,
-    };
+      return {
+        error: data.error,
+        result: data.result,
+      };
+    } catch (err) {
+      return {
+        error: err,
+      };
+    }
   }
 }
 
