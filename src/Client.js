@@ -5,9 +5,11 @@ class Client {
     this.services = new Map();
 
     Object.entries(options.services).forEach(([name, url]) => {
+      const hasProtocol = url.startsWith('https://') || url.startsWith('http://');
+
       this.services.set(
         name,
-        url.startsWith('http') ? url : `http://${url}`,
+        hasProtocol ? url : `http://${url}`,
       );
     });
   }
