@@ -57,9 +57,10 @@ class Server {
       }
 
       const context = new Context(body);
-      const response = await this.next(context) || formatResponse(context);
 
-      res.end(response);
+      await this.next(context);
+
+      res.end(formatResponse(context));
     }).listen(port);
   }
 }
