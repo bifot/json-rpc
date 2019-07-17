@@ -2,15 +2,19 @@ const { Server } = require('../src');
 
 const server = new Server();
 
-server.on((ctx) => {
-  if (ctx.params.age < 18) {
+server.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
     ctx.error = {
-      code: 400,
-      message: 'Invalid age',
+      code: err.status || 500,
+      message: err.message || 'Server error',
     };
-
-    return;
   }
+});
+
+server.on((ctx) => {
+  ctx.assert(ctx.params.age >= 18, 400, 'Invalid age');
 
   ctx.body = {
     name: 'Mikhail Semin',
