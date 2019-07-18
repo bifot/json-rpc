@@ -20,9 +20,20 @@ class Client {
     });
   }
 
+  mock(responses) {
+    this.responses = responses;
+
+    return this;
+  }
+
   async ask(name, params = {}, options = {}) {
     const [service, method] = name.split('.');
     const url = this.services.get(service);
+    const mock = this.responses && this.responses[service] && this.responses[service][method];
+
+    if (mock) {
+      return typeof mock === 'function' ? mock(params) : mock;
+    }
 
     if (!url) {
       throw new Error('Service is not found');
