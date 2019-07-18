@@ -66,4 +66,26 @@ describe('api', () => {
       result: undefined,
     });
   });
+
+  it('should get mock response', async () => {
+    const response = {
+      error: {
+        code: 500,
+        message: 'Server error',
+      },
+      result: undefined,
+    };
+
+    server.close();
+
+    client.mock({
+      users: {
+        get: response,
+      },
+    });
+
+    const user = await client.ask('users.get');
+
+    expect(user).to.be.deep.equal(response);
+  });
 });
