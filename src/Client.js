@@ -1,4 +1,10 @@
 const axios = require('axios');
+const enableRetries = require('axios-retry');
+const { buildOptions } = require('./helpers');
+
+enableRetries(axios, {
+  retries: 0,
+});
 
 class Client {
   constructor(options) {
@@ -14,7 +20,7 @@ class Client {
     });
   }
 
-  async ask(name, params, options) {
+  async ask(name, params = {}, options = {}) {
     const [service, method] = name.split('.');
     const url = this.services.get(service);
 
@@ -28,7 +34,7 @@ class Client {
         method,
         params: params.params ? params.params : params,
         id: params.params && params.id,
-      }, options);
+      }, buildOptions(options));
 
       return {
         error: data.error,

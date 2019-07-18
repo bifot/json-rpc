@@ -51,6 +51,9 @@ const client = new Client({
 
 const user = await client.ask('users.get', {
   id: 10,
+}, {
+  retries: 5,
+  retryDelay: 500,
 });
 
 // {
