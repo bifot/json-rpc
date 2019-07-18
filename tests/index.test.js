@@ -1,7 +1,6 @@
 const { expect } = require('chai');
 const { Client } = require('../src');
-
-require('../examples/server');
+const server = require('../examples/server');
 
 describe('api', () => {
   let client;
@@ -42,6 +41,29 @@ describe('api', () => {
         message: 'Invalid age',
       },
       result: undefined,
-    })
+    });
+  });
+
+  it('should get response after retries', async () => {
+    server.close();
+
+    setTimeout(() => {
+      server.listen(process.env.APP_PORT);
+    }, 1000);
+
+    const user = await client.ask('users.get', {
+      age: 10,
+    }, {
+      retries: 5,
+      retryDelay: 500,
+    });
+
+    expect(user).to.be.deep.equal({
+      error: {
+        code: 400,
+        message: 'Invalid age',
+      },
+      result: undefined,
+    });
   });
 });
